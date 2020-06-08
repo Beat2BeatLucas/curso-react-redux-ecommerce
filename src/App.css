@@ -1,0 +1,96 @@
+body {
+  font-family: 'Arial';
+}
+
+header {
+  background: #2A3544;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+header p {
+  margin: 0;
+  color: #fff;
+  opacity: 0.7;
+  margin-left: 60px;
+}
+
+header p:hover {
+  opacity: 1;
+}
+
+#ecommerce-body {
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+#ecommerce-body .product-list {
+  margin-right: 25px;
+  display: flex;
+}
+
+#ecommerce-body .product-list .product-item {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+#ecommerce-body .product-list .product-item p {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+#ecommerce-body .product-list .product-item button {
+  background: #2961AD;
+  border: 1px solid #2961AD;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: #fff;
+  width: 75px;
+}
+
+#ecommerce-body .shopping-cart {
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  width: 300px;
+  height: 100%;
+}
+
+#ecommerce-body .shopping-cart p {
+  background-color: #eee;
+  margin: 0;
+  padding: 15px 0px 15px 15px;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+#ecommerce-body .shopping-cart table{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#ecommerce-body .shopping-cart table tr td {
+  padding: 5px;
+}
+
+#ecommerce-body .shopping-cart table button {
+  background-color: #D70A00;
+  border: 1px solid #D70A00;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+#ecommerce-body .shopping-cart table button:hover {
+  background-color: #BC0B02;
+}
+
+#ecommerce-body .shopping-cart table tfoot {
+  font-weight: bold;
+}
