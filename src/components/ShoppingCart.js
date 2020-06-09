@@ -1,43 +1,20 @@
-import React, { Component } from 'react';
-import store from '../store';
+import React from 'react';
 import { removeFromCart } from '../actionCreators';
+import { connect } from 'react-redux';
 
 
-class ShoppingCart extends Component {
-  constructor() {
-    super();
-    
-    this.state = {
-      cart: []
-    }
-
-    this.removeFromCart = this.removeFromCart.bind(this);
-  }
-
-  componentDidMount(){
-    store.subscribe(() => {
-      this.setState({
-        cart: store.getState().cart,
-      });
-    });
-  }
-
-  removeFromCart(product) {
-    store.dispatch(removeFromCart(product));
-  }
-
-  render() {
+const ShoppingCart = ({ cart, removeFromCart}) => {
     return (
       <div className="shopping-cart">
         <p>Shopping Cart</p>
         <table>
           <tbody>
-            {this.state.cart.map(product => 
+            {cart.map(product => 
                 <tr key={product.id}>
                   <td>{product.name}</td>
                   <td>${product.price}</td>
                   <td>
-                    <button onClick={() => this.removeFromCart(product)} ><i className="fas fa-trash-alt"></i></button>
+                    <button onClick={() => removeFromCart(product)} ><i className="fas fa-trash-alt"></i></button>
                   </td>
                 </tr>
             )}
@@ -45,15 +22,44 @@ class ShoppingCart extends Component {
           <tfoot>
             <tr>
               <td>
-                Total: ${this.state.cart.reduce((sum, product) => sum + product.price, 0)}
+                Total: ${cart.reduce((sum, product) => sum + product.price, 0)}
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
     )
-  }
-
 }
 
-export default ShoppingCart;
+const mapStateToProps = state => {
+  return {
+    cart: state.cart
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    removeFromCart(product){
+      dispatch(removeFromCart(product));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCart);
+
+/** Con mapStateToProps y mapDispatchToProps estamos pasando dos objetos con
+ * propiedades al componente ShoppingCart. El primer objeto corresponde a propiedades
+ * con valores del store de redux, y el otro objeto pasa funciones con los action 
+ * creators (pueden pasarse los actions creators solos sin un funcion que los envuelva
+ * como en este caso). 
+ * El método mapDispatchToProps recibe al dispatch del store necesariamente, ya que con
+ * este último se permite solicitar cambios al mismo.
+ * 
+ * El resultado final que se exporta es algo como lo siguiente:
+ * 
+ * <ShoppingCart 
+ *    cart= {state.cart}                                               <---------------------- es el state del redux (store)
+ *    removeFromCart= { product => dispatch(removeFromCart(product)) }
+ * />
+ * 
+ */

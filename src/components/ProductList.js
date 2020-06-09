@@ -1,40 +1,42 @@
-import React, { Component } from 'react';
-import store from '../store';
+import React from 'react';
 import { addToCart } from '../actionCreators';
+import { connect } from 'react-redux';
 
-class ProductList extends Component {
-  constructor() {
-    super();
-    
-    this.state = {
-      products: [
-        { id: 1, name: "Hipster Ultimate", price: 299, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-1.jpg" },
-        { id: 2, name: "On Motion Live", price: 99, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-2.jpg" },
-        { id: 3, name: "Underground Max", price: 149, image: "https://s3.amazonaws.com/makeitreal/projects/e-commerce/camiseta-3.jpg" },
-      ]
-    }
 
-    this.addToCart = this.addToCart.bind(this);
-  }
-
-  addToCart(product) {
-    store.dispatch(addToCart(product));
-  }
-
-  render() {
+const ProductList = ({ products, addToCart }) => {
     return (
       <div className="product-list">
-          {this.state.products.map(product => 
+          {products.map(product => 
             <div key={product.id} className="product-item">
                 <img src={product.image} alt={product.name} />
                 <p>{product.name}</p>
-                <button onClick={() => this.addToCart(product)}>{'$' + product.price} <i className="fas fa-shopping-cart"></i></button>
+                <button onClick={() => addToCart(product)}>{'$' + product.price} <i className="fas fa-shopping-cart"></i></button>
             </div>
            )}
       </div>
     );
-  }
-
 }
 
-export default ProductList;
+const mapStateToProps = state => {
+    return {
+        products: state.products
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addToCart(product){
+            dispatch(addToCart(product));
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProductList);
+
+/** Es como si se exportara 
+ * 
+ *  <ProductList 
+ *      products={ state.products }                             <---------------------- es el state del redux (store)                      
+ *      addToCart={ product => dispatch(addToCart(product)) }
+ * />
+ */
