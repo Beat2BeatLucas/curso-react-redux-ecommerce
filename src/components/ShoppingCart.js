@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from '../store';
 
 
 class ShoppingCart extends Component {
@@ -12,8 +13,19 @@ class ShoppingCart extends Component {
     this.removeFromCart = this.removeFromCart.bind(this);
   }
 
-  removeFromCart(product) {
+  componentDidMount(){
+    store.subscribe(() => {
+      this.setState({
+        cart: store.getState().cart,
+      });
+    });
+  }
 
+  removeFromCart(product) {
+    store.dispatch({
+      type: "REMOVE_FROM_CART",
+      product
+    });
   }
 
   render() {
@@ -23,11 +35,11 @@ class ShoppingCart extends Component {
         <table>
           <tbody>
             {this.state.cart.map(product => 
-                <tr>
+                <tr key={product.id}>
                   <td>{product.name}</td>
                   <td>${product.price}</td>
                   <td>
-                    <button><i class="fas fa-trash-alt"></i></button>
+                    <button onClick={() => this.removeFromCart(product)} ><i className="fas fa-trash-alt"></i></button>
                   </td>
                 </tr>
             )}
